@@ -27,7 +27,7 @@ jobs:
         run: docker build -t app-image:v1 .
 
       - name: Tag docker image
-        run: docker tag prject:v1 058264342468.dkr.ecr.us-east-1.amazonaws.com/project:v1
+        run: docker tag project:v1 058264342468.dkr.ecr.us-east-1.amazonaws.com/project:v1
 
       - name: Push docker image to Amazon ECR
         run: |

@@ -22,14 +22,14 @@ jobs:
           aws-region: us-east-1
 
       - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
+        run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 058264342468.dkr.ecr.us-east-2.amazonaws.com
 
       - name: Build docker image
-        run: docker build -t project-app:v1 .
+        run: docker build -t project .
 
       - name: Tag docker image
-        run: docker tag project-app:v1 058264342468.dkr.ecr.us-east-2.amazonaws.com/project-app:v1
+        run: docker tag project:latest 058264342468.dkr.ecr.us-east-2.amazonaws.com/project:latest
 
       - name: Push docker image to Amazon ECR
         run: |
-          docker push 058264342468.dkr.ecr.us-east-2.amazonaws.com/project-app:v1
+          docker push 058264342468.dkr.ecr.us-east-2.amazonaws.com/project:latest

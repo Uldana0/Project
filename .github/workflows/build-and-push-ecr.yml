@@ -1,3 +1,4 @@
+
 name: Build and Push to ECR
 
 on:
@@ -24,11 +25,11 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build docker image
-        run: docker build -t app-image:v1 .
+        run: docker build -t project-app:v1 .
 
       - name: Tag docker image
-        run: docker tag app-image:v1 058264342468.dkr.ecr.us-east-2.amazonaws.com/project:v1
-      - name: Push docker image to Amazon ECR
-        run: 
-          docker push  058264342468.dkr.ecr.us-east-2.amazonaws.com/project:v1
+        run: docker tag project-app:v1 058264342468.dkr.ecr.us-east-2.amazonaws.com/project-app:v1
 
+      - name: Push docker image to Amazon ECR
+        run: |
+          docker push 058264342468.dkr.ecr.us-east-2.amazonaws.com/project-app:v1

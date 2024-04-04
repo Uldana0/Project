@@ -2,13 +2,12 @@ name: Build and Push to GAR
 
 on:
   workflow_dispatch:
-  schedule: '0 18 * * *'
 
 env:
-  PROJECT_ID: high-theme-384006
+  PROJECT_ID: proven-dryad-417822
   IMAGE_NAME: hello-app
   REGISTRY_LOCATION: us-central-1
-  REPOSITORY: hello-chart
+  REPOSITORY: hello-app
 
 jobs:
   build-and-push:
@@ -18,16 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Set up Google Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v0.4.3
-      #   with:
-      #     project_id: ${{ env.PROJECT_ID }}
-      #     service_account_key: ${{ secrets.GCP_SA_KEY }}
-      #     export_default_credentials: true
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
       - id: 'auth'
         name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           token_format: access_token
           credentials_json: ${{ secrets.GCP_SA_KEY }}
@@ -51,4 +50,3 @@ jobs:
         id: docker-image-url
         run: |
           echo ::set-output name=docker_image_url::${{ env.REGISTRY_LOCATION }}-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/${{ env.IMAGE_NAME }}:${{ github.sha }}
-
